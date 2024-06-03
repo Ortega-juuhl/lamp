@@ -20,8 +20,6 @@ pause 5
 # Install OpenSSH server
 sudo apt install -y openssh-server
 pause 10
-sudo nano /etc/ssh/sshd_config
-pause 10
 
 # Configure UFW
 sudo ufw enable
@@ -50,14 +48,12 @@ sudo apt install -y mariadb-server
 pause 10
 sudo systemctl start mariadb.service
 pause 10
-sudo mysql_secure_installation
-pause 10
 
 # Secure MariaDB and create user/database
-sudo mysql <<EOF
+sudo mysql -u root <<EOF
 ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'admin';
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'admin';
-SELECT user,authentication_string,plugin,host FROM mysql.user;
+SELECT user, authentication_string, plugin, host FROM mysql.user;
 CREATE USER 'root1'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'admin';
 GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'root1'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
@@ -65,13 +61,13 @@ EOF
 pause 10
 
 # Create database
-mysql -u root1 -p'admin' <<EOF
+sudo mysql -u root1 -p'admin' <<EOF
 CREATE DATABASE chat_system CHARACTER SET utf8;
 exit
 EOF
 
 # Check MySQL status
-sudo systemctl status mysql.service || { echo "Failed to get MySQL status"; exit 1; }
+sudo systemctl status mariadb.service || { echo "Failed to get MySQL status"; exit 1; }
 pause 10
 sudo systemctl status apache2 || { echo "Failed to get Apache status"; exit 1; }
 pause 10
