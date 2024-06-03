@@ -15,22 +15,27 @@ sudo apt update
 sudo apt install -y apache2
 pause 10
 sudo systemctl enable apache2.service
-pause 10
+pause 5
 
+# Install OpenSSH server
+sudo apt install -y openssh-server
+pause 10
+sudo nano /etc/ssh/sshd_config
+pause 10
 
 # Configure UFW
 sudo ufw enable
-pause 10
+pause 5
 sudo ufw allow from 10.0.0.0/8 to any port 3306
-pause 10
+pause 5
 sudo ufw allow in on eth0 to any port 80
-pause 10
+pause 5
 sudo ufw allow 'Apache Full'
-pause 10
+pause 5
 sudo ufw allow 'OpenSSH'
-pause 10
+pause 5
 sudo ufw allow from any to any port 20,21,10000:10100 proto tcp
-pause 10
+pause 5
 
 # Install PHP
 sudo apt install -y php
@@ -38,12 +43,6 @@ pause 10
 sudo apt install -y libapache2-mod-php
 pause 10
 sudo apt-cache search libapache2*
-pause 10
-
-# Install OpenSSH server
-sudo apt install -y openssh-server
-pause 10
-sudo nano /etc/ssh/sshd_config
 pause 10
 
 # Install MariaDB
