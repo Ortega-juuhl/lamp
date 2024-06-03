@@ -16,8 +16,7 @@ sudo apt install -y apache2
 pause 10
 sudo systemctl enable apache2.service
 pause 10
-sudo systemctl status apache2 || { echo "Failed to get Apache status"; exit 1; }
-pause 10
+
 
 # Configure UFW
 sudo ufw enable
@@ -66,14 +65,18 @@ FLUSH PRIVILEGES;
 EOF
 pause 10
 
-# Check MySQL status
-sudo systemctl status mysql.service || { echo "Failed to get MySQL status"; exit 1; }
-pause 10
-
 # Create database
 mysql -u root1 -p'admin' <<EOF
 CREATE DATABASE chat_system CHARACTER SET utf8;
 exit
 EOF
+
+# Check MySQL status
+sudo systemctl status mysql.service || { echo "Failed to get MySQL status"; exit 1; }
+pause 10
+sudo systemctl status apache2 || { echo "Failed to get Apache status"; exit 1; }
+pause 10
+sudo systemctl status mariadb || { echo "Failed to get mariadb status"; exit 1; }
+pause 10
 
 echo "LAMP installation and configuration complete."
