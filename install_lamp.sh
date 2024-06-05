@@ -38,6 +38,8 @@ pause 5
 # Install PHP
 sudo apt install -y php
 pause 10
+sudo apt-get install php-mysql
+pause 10
 sudo apt install -y libapache2-mod-php
 pause 10
 sudo apt-cache search libapache2*
